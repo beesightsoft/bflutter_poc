@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:bflutter/bloc.dart';
+import 'package:bflutter/bflutter.dart';
 
 void main() => runApp(MyApp());
 
