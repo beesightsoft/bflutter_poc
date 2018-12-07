@@ -71,7 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
 class TestStatelessWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    String msg = 'TestWidget render ${DateTime.now()}';
+    String msg = 'TestStatelessWidget render ${DateTime.now()}';
     print(msg);
     return Text(msg);
   }
@@ -89,13 +89,11 @@ class _TestStateFullSate extends State<StatefulWidget> {
   Widget build(BuildContext context) {
     String msg = '_TestStateFullSate render ${DateTime.now()}';
     print(msg);
-    return Center(
-      child: OutlineButton(
-        child: Text('BeeSight Soft'),
-        onPressed: () {
-          setState(() {});
-        },
-      ),
+    return OutlineButton(
+      child: Text('BeeSight Soft'),
+      onPressed: () {
+        setState(() {});
+      },
     );
   }
 }
