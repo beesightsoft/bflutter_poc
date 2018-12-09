@@ -1,3 +1,4 @@
+import 'package:http/http.dart' as http;
 import 'package:bflutter_poc/search/search_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -33,5 +34,12 @@ class __HomeInfoState extends State<_HomeInfo> {
         ],
       ),
     );
+  }
+
+  @override
+  void initState() {}
+
+  Future<http.Response> fetchInfo() {
+    return http.get('users/beesightsoft');
   }
 }

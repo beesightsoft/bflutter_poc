@@ -1,8 +1,16 @@
+import 'package:bflutter_poc/env/AppConfig.dart';
 import 'package:bflutter_poc/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:bflutter/bflutter.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(
+      AppConfig(
+        appName: 'Build flavors DEV',
+        flavorName: 'development',
+        apiBaseUrl: 'https://api.github.com/',
+        child: MyApp(),
+      ),
+    );
 
 class MyApp extends StatelessWidget {
   @override
