@@ -1,3 +1,4 @@
+import 'package:bflutter_poc/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:bflutter/bflutter.dart';
 
@@ -11,7 +12,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      debugShowCheckedModeBanner: true,
+      home: HomeScreen(),
     );
   }
 }
