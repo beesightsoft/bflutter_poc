@@ -1,4 +1,7 @@
-import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+import 'package:bflutter_poc/home/home_bloc.dart';
+import 'package:bflutter_poc/model/user.dart';
 import 'package:bflutter_poc/search/search_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -18,28 +21,51 @@ class _HomeInfo extends StatefulWidget {
 }
 
 class __HomeInfoState extends State<_HomeInfo> {
+  var bloc = HomeBloc();
+
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Column(
-        children: <Widget>[
-          Text('hello'),
-          RaisedButton(
-            child: Text('Search Screen'),
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => SearchScreen()));
-            },
-          ),
-        ],
+      child: Padding(
+        padding: EdgeInsets.only(top: 10),
+        child: Column(
+          children: <Widget>[
+            StreamBuilder(
+              stream: bloc.getFromBloc(),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return Text(snapshot.error.toString());
+                }
+                if (!snapshot.hasData) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                return Text(json.encode(snapshot.data));
+              },
+            ),
+            RaisedButton(
+              child: Text('Search Screen'),
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => SearchScreen()));
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
 
   @override
-  void initState() {}
+  void initState() {
+    super.initState();
+    bloc.getHomeInfo();
+  }
 
-  Future<http.Response> fetchInfo() {
-    return http.get('users/beesightsoft');
+  @override
+  void dispose() {
+    bloc.dispose();
+    super.dispose();
   }
 }
