@@ -14,56 +14,81 @@ class SearchScreen extends StatelessWidget {
       body: Container(
         child: Column(
           children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(left: 10, right: 10),
-              child: TextField(
-                onChanged: bloc.push,
-                decoration:
-                    InputDecoration(hintText: 'Please enter a search term'),
+            Container(
+              margin: EdgeInsets.only(left: 10, right: 10, top: 10),
+              child: Row(
+                children: <Widget>[
+                  Icon(Icons.search),
+                  Expanded(
+                    child: TextField(
+                      onChanged: bloc.push,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: 'Please enter a search term',
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(bottom: 10),
+              child: Divider(
+                color: Colors.black,
+              ),
+            ),
+            Container(
+              child: StreamBuilder(
+                stream: bloc.loadingSubject,
+                builder: (context, loading) {
+                  if (loading.hasData && loading.data) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  return Container();
+                },
               ),
             ),
             Expanded(
               child: StreamBuilder(
-                  stream: bloc.stream,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasError) {
-                      return Text(snapshot.error.toString());
-                    }
-                    if (!snapshot.hasData) {
-                      return Center(
-                        child: CircularProgressIndicator(),
+                stream: bloc.stream,
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return Text(snapshot.error.toString());
+                  }
+                  if (!snapshot.hasData || (snapshot?.data)?.length == 0) {
+                    return Text('No data');
+                  }
+                  List<UserBase> users = snapshot.data;
+                  return ListView.builder(
+                    itemCount: users.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return FlatButton(
+                        child: Row(
+                          children: <Widget>[
+                            CircleAvatar(
+                              backgroundImage:
+                                  NetworkImage(users[index].avatarUrl),
+                              radius: 20.0,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(left: 10, right: 10),
+                              child: Text('${users[index].login}'),
+                            ),
+                          ],
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => DetailScreen()));
+                        },
                       );
-                    }
-                    print(snapshot.data);
-                    List<UserBase> users = snapshot.data;
-                    return ListView.builder(
-                      padding: EdgeInsets.all(8.0),
-                      itemCount: users.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return FlatButton(
-                          child: Row(
-                            children: <Widget>[
-                              CircleAvatar(
-                                backgroundImage:
-                                    NetworkImage(users[index].avatarUrl),
-                                radius: 20.0,
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(left: 10, right: 10),
-                                child: Text('${users[index].login}'),
-                              ),
-                            ],
-                          ),
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => DetailScreen()));
-                          },
-                        );
-                      },
-                    );
-                  }),
+                    },
+                  );
+                },
+              ),
             ),
           ],
         ),

@@ -5,6 +5,9 @@ import 'package:http/http.dart' as http;
 import 'package:bflutter_poc/global.dart';
 
 class SearchBloc {
+  //For loading
+  BehaviorSubject loadingSubject = BehaviorSubject<bool>();
+
   //Input
   var _subject = BehaviorSubject<String>();
 
@@ -12,19 +15,33 @@ class SearchBloc {
 
   //Output
   Stream<List<UserBase>> get stream =>
-      _subject.distinct().debounce(Duration(milliseconds: 300)).asyncMap(_fetchUsers).map(
+      _subject.distinct().debounce(Duration(milliseconds: 500)).map(
+        (query) {
+          //show loading
+          loadingSubject.add(true);
+          return query;
+        },
+      ).flatMap(
+        (input) {
+          if (input.isEmpty) return Observable<List<UserBase>>.just([]);
+          return Observable.fromFuture(_fetchUsers(input)).map((data) {
+            if (data.statusCode == 200) {
+              final List<UserBase> result = json
+                  .decode(data.body)['items']
+                  .cast<Map<String, dynamic>>()
+                  .map<UserBase>((item) => UserBase.fromJson(item))
+                  .toList();
+              return result;
+            } else {
+              throw Exception(data.body);
+            }
+          });
+        },
+      ).map(
         (data) {
-          if (data.statusCode == 200) {
-            final List<UserBase> result = json
-                .decode(data.body)['items']
-                .cast<Map<String, dynamic>>()
-                .map<UserBase>((item) => UserBase.fromJson(item))
-                .toList();
-            print(result);
-            return result;
-          } else {
-            throw Exception(data.body);
-          }
+          //hide loading
+          loadingSubject.add(false);
+          return data;
         },
       ).asBroadcastStream();
 
