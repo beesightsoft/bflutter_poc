@@ -47,7 +47,6 @@ class SearchBloc {
 
   Future<http.Response> _fetchUsers(String query) {
     String url = '${Global.instance.env.apiBaseUrl}search/users?q=$query';
-    print(url);
     return http.get(url);
   }
 

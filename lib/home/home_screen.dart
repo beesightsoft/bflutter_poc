@@ -3,12 +3,11 @@ import 'package:bflutter_poc/home/home_bloc.dart';
 import 'package:bflutter_poc/model/user.dart';
 import 'package:bflutter_poc/search/search_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    FocusScope.of(context).requestFocus(new FocusNode());
+    FocusScope.of(context).requestFocus(FocusNode());
     return Scaffold(
       appBar: AppBar(title: Text('Home Screen')),
       body: _HomeInfo(),

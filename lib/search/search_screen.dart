@@ -1,11 +1,10 @@
 import 'package:bflutter_poc/detail/detail_screen.dart';
-import 'package:bflutter_poc/model/user.dart';
 import 'package:bflutter_poc/model/user_base.dart';
 import 'package:bflutter_poc/search/search_bloc.dart';
 import 'package:flutter/material.dart';
 
 class SearchScreen extends StatelessWidget {
-  final bloc = new SearchBloc();
+  final bloc = SearchBloc();
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +81,8 @@ class SearchScreen extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => DetailScreen()));
+                                  builder: (context) =>
+                                      DetailScreen(userBase: users[index])));
                         },
                       );
                     },

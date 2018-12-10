@@ -16,9 +16,7 @@ class HomeBloc {
     _outputBloc = _subject.asyncMap(_fetchUser).map(
       (data) {
         if (data.statusCode == 200) {
-          var user = User.fromJson(json.decode(data.body));
-          print(json.encode(user));
-          return user;
+          return User.fromJson(json.decode(data.body));
         } else {
           throw Exception(data.body);
         }
