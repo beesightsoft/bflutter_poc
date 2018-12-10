@@ -58,7 +58,7 @@ class __HomeInfoState extends State<_HomeInfo> {
                   children: <Widget>[
                     CircleAvatar(
                       backgroundImage: NetworkImage(user.avatarUrl),
-                      radius: 100.0,
+                      radius: 50.0,
                     ),
                     Text(json.encode(snapshot.data))
                   ],

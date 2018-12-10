@@ -46,7 +46,15 @@ class DetailScreen extends StatelessWidget {
                       if (!snapshot.hasData) {
                         return Container();
                       }
-                      return Text(json.encode(snapshot?.data ?? 'No data'));
+                      return Column(
+                        children: <Widget>[
+                          CircleAvatar(
+                            backgroundImage: NetworkImage(snapshot.data.avatarUrl),
+                            radius: 50.0,
+                          ),
+                          Text(json.encode(snapshot.data))
+                        ],
+                      );
                     },
                   ),
                 ),
