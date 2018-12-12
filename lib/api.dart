@@ -18,5 +18,4 @@ class Api {
     return http.get('$apiBaseUrl/users/$username');
   }
 
-
 }
