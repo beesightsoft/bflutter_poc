@@ -43,7 +43,7 @@ class __HomeInfoState extends State<_HomeInfo> {
         child: Column(
           children: <Widget>[
             StreamBuilder(
-              stream: bloc.getState,
+              stream: bloc.getUserInfo.stream(),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   return Text(snapshot.error.toString());

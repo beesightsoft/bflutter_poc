@@ -1,48 +1,45 @@
 import 'dart:convert';
+import 'package:bflutter/bflutter.dart';
+import 'package:bflutter_poc/api.dart';
 import 'package:bflutter_poc/model/user.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:http/http.dart' as http;
-import 'package:bflutter_poc/global.dart';
 
 class DetailBloc {
-  //For loading
-  BehaviorSubject loadingSubject = BehaviorSubject<bool>();
+  var loading = BlocDefault<bool>();
+  var getUserInfo = Bloc<String, User>();
 
-  //Input
-  var _subject = BehaviorSubject<String>();
+  DetailBloc() {
+    _initGetUserInfoLogic();
+  }
 
-  Function(String) get push => _subject.add;
-
-  //Output
-  Stream<User> get stream => _subject
-      .map(
-        (query) {
-          //show loading
-          loadingSubject.add(true);
-          return query;
-        },
-      )
-      .asyncMap(_fetchUser)
-      .map(
-        (data) {
-          //hide loading
-          loadingSubject.add(false);
-
-          if (data.statusCode == 200) {
-            return User.fromJson(json.decode(data.body));
-          } else {
-            throw Exception(data.body);
-          }
-        },
-      )
-      .asBroadcastStream();
-
-  Future<http.Response> _fetchUser(String username) {
-    String url = '${Global.instance.env.apiBaseUrl}users/$username';
-    return http.get(url);
+  void _initGetUserInfoLogic() {
+    getUserInfo.business = (Observable<String> event) => event
+        .map((event) {
+          loading.push(true);
+          return event;
+        })
+        .asyncMap(Api().getUserInfo)
+        .map(
+          (data) {
+            if (data.statusCode == 200) {
+              return User.fromJson(json.decode(data.body));
+            } else {
+              throw Exception(data.body);
+            }
+          },
+        )
+        .handleError((error) {
+          loading.push(false);
+          throw error;
+        })
+        .doOnData((data) {
+          loading.push(false);
+        })
+        .asBroadcastStream();
   }
 
   void dispose() {
-    _subject.close();
+    loading.dispose();
+    getUserInfo.dispose();
   }
 }

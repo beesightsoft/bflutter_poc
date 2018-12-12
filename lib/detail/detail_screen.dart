@@ -11,7 +11,7 @@ class DetailScreen extends StatelessWidget {
 
   DetailScreen({Key key, @required this.userBase}) : super(key: key) {
     if (userBase?.login?.isNotEmpty ?? false) {
-      bloc.push(userBase.login);
+      bloc.getUserInfo.push(userBase.login);
     }
   }
 
@@ -25,7 +25,7 @@ class DetailScreen extends StatelessWidget {
               children: <Widget>[
                 Container(
                   child: StreamBuilder(
-                    stream: bloc.loadingSubject,
+                    stream: bloc.loading.stream(),
                     builder: (context, loading) {
                       if (loading.hasData && loading.data) {
                         return Center(
@@ -38,7 +38,7 @@ class DetailScreen extends StatelessWidget {
                 ),
                 Expanded(
                   child: StreamBuilder(
-                    stream: bloc.stream,
+                    stream: bloc.getUserInfo.stream(),
                     builder: (context, snapshot) {
                       if (snapshot.hasError) {
                         return Text(snapshot.error.toString());
@@ -49,7 +49,8 @@ class DetailScreen extends StatelessWidget {
                       return Column(
                         children: <Widget>[
                           CircleAvatar(
-                            backgroundImage: NetworkImage(snapshot.data.avatarUrl),
+                            backgroundImage:
+                                NetworkImage(snapshot.data.avatarUrl),
                             radius: 50.0,
                           ),
                           Text(json.encode(snapshot.data))

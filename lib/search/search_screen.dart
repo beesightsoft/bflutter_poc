@@ -20,7 +20,7 @@ class SearchScreen extends StatelessWidget {
                   Icon(Icons.search),
                   Expanded(
                     child: TextField(
-                      onChanged: bloc.push,
+                      onChanged: bloc.searchUser.push,
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: 'Please enter a search term',
@@ -38,7 +38,7 @@ class SearchScreen extends StatelessWidget {
             ),
             Container(
               child: StreamBuilder(
-                stream: bloc.loadingSubject,
+                stream: bloc.loading.stream(),
                 builder: (context, loading) {
                   if (loading.hasData && loading.data) {
                     print(loading.data);
@@ -52,7 +52,7 @@ class SearchScreen extends StatelessWidget {
             ),
             Expanded(
               child: StreamBuilder(
-                stream: bloc.stream,
+                stream: bloc.searchUser.stream(),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
                     return Text(snapshot.error.toString());

@@ -7,14 +7,16 @@ class Env {
   final String apiBaseUrl;
 
   factory Env.dev() {
-    return new Env._(apiBaseUrl: "https://api.github.com/");
+    return new Env._(apiBaseUrl: "https://api.github.com");
   }
 }
 
 class Global {
-  static final Global instance = Global._private();
+  static final Global _instance = Global._private();
 
   Global._private();
+
+  factory Global() => _instance;
 
   Env env = Env.dev();
 }
