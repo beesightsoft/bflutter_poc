@@ -41,7 +41,6 @@ class SearchScreen extends StatelessWidget {
                 stream: bloc.loading.stream(),
                 builder: (context, loading) {
                   if (loading.hasData && loading.data) {
-                    print(loading.data);
                     return Center(
                       child: CircularProgressIndicator(),
                     );
