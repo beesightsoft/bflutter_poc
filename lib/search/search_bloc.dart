@@ -14,7 +14,8 @@ class SearchBloc {
 
   void _initSearchUserLogic() {
     searchUser.business = (Observable<String> event) =>
-        event.distinct().debounce(Duration(milliseconds: 500)).flatMap((input) {
+        event.distinct().debounceTime(Duration(milliseconds: 500)).flatMap((
+            input) {
           //show loading
           loading.push(true);
           if (input.isEmpty) return Observable.just(null);

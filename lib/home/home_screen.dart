@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    FocusScope.of(context).requestFocus(FocusNode());
     return Scaffold(
       appBar: AppBar(title: Text('Home Screen')),
       body: _HomeInfo(),
@@ -68,7 +67,7 @@ class __HomeInfoState extends State<_HomeInfo> {
             RaisedButton(
               child: Text('Search Screen'),
               onPressed: () {
-                _navigateAndDisplaySelection(context);
+                _navigateAndDisplaySelection();
               },
             ),
           ],
@@ -77,7 +76,7 @@ class __HomeInfoState extends State<_HomeInfo> {
     );
   }
 
-  _navigateAndDisplaySelection(BuildContext context) async {
+  _navigateAndDisplaySelection() async {
     await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => SearchScreen()),
