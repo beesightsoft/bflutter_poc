@@ -19,7 +19,7 @@ class DetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Detail Screen')),
-      body: (userBase == null || userBase.login.isEmpty)
+      body: userBase?.login?.isEmpty == null
           ? Container(child: Text('user empty'))
           : Column(
               children: <Widget>[

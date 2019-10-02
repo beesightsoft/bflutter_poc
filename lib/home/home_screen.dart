@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:bflutter_poc/home/home_bloc.dart';
 import 'package:bflutter_poc/model/user.dart';
 import 'package:bflutter_poc/search/search_screen.dart';

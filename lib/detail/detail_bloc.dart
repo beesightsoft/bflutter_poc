@@ -1,12 +1,13 @@
 import 'dart:convert';
+
 import 'package:bflutter/bflutter.dart';
 import 'package:bflutter_poc/api.dart';
 import 'package:bflutter_poc/model/user.dart';
 import 'package:rxdart/rxdart.dart';
 
 class DetailBloc {
-  var loading = BlocDefault<bool>();
-  var getUserInfo = Bloc<String, User>();
+  final loading = BlocDefault<bool>();
+  final getUserInfo = Bloc<String, User>();
 
   DetailBloc() {
     _initGetUserInfoLogic();

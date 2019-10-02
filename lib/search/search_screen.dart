@@ -3,7 +3,12 @@ import 'package:bflutter_poc/model/user_base.dart';
 import 'package:bflutter_poc/search/search_bloc.dart';
 import 'package:flutter/material.dart';
 
-class SearchScreen extends StatelessWidget {
+class SearchScreen extends StatefulWidget {
+  @override
+  _SearchScreenState createState() => _SearchScreenState();
+}
+
+class _SearchScreenState extends State<SearchScreen> {
   final bloc = SearchBloc();
 
   @override
@@ -11,6 +16,10 @@ class SearchScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text('Search Screen')),
       body: Container(
+          child: GestureDetector(
+        onTap: () {
+          bloc.focusNode.unfocus();
+        },
         child: Column(
           children: <Widget>[
             Container(
@@ -21,6 +30,8 @@ class SearchScreen extends StatelessWidget {
                   Expanded(
                     child: TextField(
                       onChanged: bloc.searchUser.push,
+                      autofocus: true,
+                      focusNode: bloc.focusNode,
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: 'Please enter a search term',
@@ -92,7 +103,7 @@ class SearchScreen extends StatelessWidget {
             ),
           ],
         ),
-      ),
+      )),
     );
   }
 }

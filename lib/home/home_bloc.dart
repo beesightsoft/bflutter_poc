@@ -1,11 +1,12 @@
 import 'dart:convert';
+
 import 'package:bflutter/bflutter.dart';
 import 'package:bflutter_poc/api.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:bflutter_poc/model/user.dart';
+import 'package:rxdart/rxdart.dart';
 
 class HomeBloc {
-  var getUserInfo = Bloc<String, User>();
+  final getUserInfo = Bloc<String, User>();
 
   HomeBloc() {
     _initGetUserInfoLogic();

@@ -1,10 +1,11 @@
-import 'package:http/http.dart' as http;
 import 'package:bflutter_poc/global.dart';
+import 'package:http/http.dart' as http;
 
 class Api {
-
   static final Api _instance = Api._private();
+
   Api._private();
+
   factory Api() => _instance;
 
   final String apiBaseUrl = Global().env.apiBaseUrl;
@@ -17,5 +18,4 @@ class Api {
   Future<http.Response> getUserInfo(String username) {
     return http.get('$apiBaseUrl/users/$username');
   }
-
 }
