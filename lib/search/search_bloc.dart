@@ -21,7 +21,7 @@ class SearchBloc {
             .distinct()
             .debounceTime(Duration(milliseconds: 500))
             .flatMap((input) {
-      focusNode.unfocus();
+          focusNode.unfocus();
           //show loading
           loading.push(true);
           if (input.isEmpty) return Observable.just(null);
