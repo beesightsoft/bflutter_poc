@@ -10,8 +10,6 @@ class SearchBloc {
   final loading = BlocDefault<bool>();
   final searchUser = Bloc<String, List<UserBase>>();
   final FocusNode focusNode = FocusNode();
-  String _searchText;
-  List<UserBase> _lastResult;
 
   SearchBloc() {
     _initSearchUserLogic();
@@ -20,25 +18,16 @@ class SearchBloc {
   void _initSearchUserLogic() {
     searchUser.business = (Observable<String> event) => event
             .distinct()
-            .debounceTime(Duration(milliseconds: 500))
+            .debounceTime(Duration(milliseconds: 1000))
             .flatMap((input) {
           //show loading
           loading.push(true);
           if (input.isEmpty) return Observable.just(null);
-          if (_searchText != input) {
-            _lastResult = null;
-            _searchText = input;
-            //hide keyboard
-            focusNode.unfocus();
-            return Observable.fromFuture(Api().searchUsers(input));
-          } else {
-            return Observable.just(null);
-          }
+          //hide keyboard
+          focusNode.unfocus();
+          return Observable.fromFuture(Api().searchUsers(input));
         }).map((data) {
           if (data == null) {
-            if (_lastResult != null) {
-              return _lastResult;
-            }
             return <UserBase>[];
           }
 
@@ -48,8 +37,7 @@ class SearchBloc {
                 .cast<Map<String, dynamic>>()
                 .map<UserBase>((item) => UserBase.fromJson(item))
                 .toList();
-            _lastResult = result;
-            return _lastResult;
+            return result;
           } else {
             throw (data.body);
           }
@@ -58,7 +46,7 @@ class SearchBloc {
           throw error;
         }).doOnData((data) {
           loading.push(false);
-        }).asBroadcastStream();
+        });
   }
 
   void dispose() {

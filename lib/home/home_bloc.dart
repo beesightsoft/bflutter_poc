@@ -22,7 +22,7 @@ class HomeBloc {
                   throw Exception(data.body);
                 }
               },
-            ).asBroadcastStream();
+            );
   }
 
   void getHomeInfo() {

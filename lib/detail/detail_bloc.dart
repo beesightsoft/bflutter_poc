@@ -35,8 +35,7 @@ class DetailBloc {
         })
         .doOnData((data) {
           loading.push(false);
-        })
-        .asBroadcastStream();
+        });
   }
 
   void dispose() {
