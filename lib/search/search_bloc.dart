@@ -8,9 +8,10 @@ import 'package:rxdart/rxdart.dart';
 
 class SearchBloc {
   final loading = BlocDefault<bool>();
-  final hideKeyboard = BlocDefault<bool>();
   final searchUser = Bloc<String, List<UserBase>>();
   final FocusNode focusNode = FocusNode();
+  String _searchText;
+  List<UserBase> _lastResult;
 
   SearchBloc() {
     _initSearchUserLogic();
@@ -21,13 +22,23 @@ class SearchBloc {
             .distinct()
             .debounceTime(Duration(milliseconds: 500))
             .flatMap((input) {
-          focusNode.unfocus();
           //show loading
           loading.push(true);
           if (input.isEmpty) return Observable.just(null);
-          return Observable.fromFuture(Api().searchUsers(input));
+          if (_searchText != input) {
+            _lastResult = null;
+            _searchText = input;
+            //hide keyboard
+            focusNode.unfocus();
+            return Observable.fromFuture(Api().searchUsers(input));
+          } else {
+            return Observable.just(null);
+          }
         }).map((data) {
           if (data == null) {
+            if (_lastResult != null) {
+              return _lastResult;
+            }
             return <UserBase>[];
           }
 
@@ -37,7 +48,8 @@ class SearchBloc {
                 .cast<Map<String, dynamic>>()
                 .map<UserBase>((item) => UserBase.fromJson(item))
                 .toList();
-            return result;
+            _lastResult = result;
+            return _lastResult;
           } else {
             throw (data.body);
           }
