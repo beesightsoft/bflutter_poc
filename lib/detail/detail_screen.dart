@@ -25,7 +25,7 @@ class DetailScreen extends StatelessWidget {
               children: <Widget>[
                 Container(
                   child: StreamBuilder(
-                    stream: bloc.loading.stream(),
+                    stream: bloc.loading.stream,
                     builder: (context, loading) {
                       if (loading.hasData && loading.data) {
                         return Center(
@@ -38,7 +38,7 @@ class DetailScreen extends StatelessWidget {
                 ),
                 Expanded(
                   child: StreamBuilder(
-                    stream: bloc.getUserInfo.stream(),
+                    stream: bloc.getUserInfo.stream,
                     builder: (context, snapshot) {
                       if (snapshot.hasError) {
                         return Text(snapshot.error.toString());

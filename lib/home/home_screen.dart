@@ -43,7 +43,7 @@ class __HomeInfoState extends State<_HomeInfo> {
         child: Column(
           children: <Widget>[
             StreamBuilder(
-              stream: bloc.getUserInfo.stream(),
+              stream: bloc.getUserInfo.stream,
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   return Text(snapshot.error.toString());
@@ -68,7 +68,7 @@ class __HomeInfoState extends State<_HomeInfo> {
             RaisedButton(
               child: Text('Search Screen'),
               onPressed: () {
-                _navigateAndDisplaySelection();
+                _navigateAndDisplaySelection(context);
               },
             ),
           ],
@@ -77,7 +77,7 @@ class __HomeInfoState extends State<_HomeInfo> {
     );
   }
 
-  _navigateAndDisplaySelection() async {
+  _navigateAndDisplaySelection(BuildContext context) async {
     await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => SearchScreen()),

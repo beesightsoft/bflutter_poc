@@ -3,11 +3,13 @@ import 'dart:convert';
 import 'package:bflutter/bflutter.dart';
 import 'package:bflutter_poc/api.dart';
 import 'package:bflutter_poc/model/user_base.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:rxdart/rxdart.dart';
 
 class SearchBloc {
   final loading = BlocDefault<bool>();
   final searchUser = Bloc<String, List<UserBase>>();
+  final FocusNode focusNode = FocusNode();
 
   SearchBloc() {
     _initSearchUserLogic();
