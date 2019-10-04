@@ -20,7 +20,6 @@ class SearchBloc {
             .distinct()
             .debounceTime(Duration(milliseconds: 500))
             .flatMap((input) {
-          print('final data: ' + input);
           //show loading
           loading.push(true);
           if (input.isEmpty) return Observable.just(null);

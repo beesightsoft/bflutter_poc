@@ -12,7 +12,6 @@ class Api {
 
   Future<http.Response> searchUsers(String query) {
     String url = '$apiBaseUrl/search/users?q=$query';
-    print(url);
     return http.get(url);
   }
 
