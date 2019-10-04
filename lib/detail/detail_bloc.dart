@@ -14,10 +14,10 @@ class DetailBloc {
   }
 
   void _initGetUserInfoLogic() {
-    getUserInfo.business = (Observable<String> event) => event
-        .map((event) {
+    getUserInfo.logic = (Observable<String> input) => input
+        .map((input) {
           loading.push(true);
-          return event;
+          return input;
         })
         .asyncMap(Api().getUserInfo)
         .map(

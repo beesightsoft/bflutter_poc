@@ -13,8 +13,8 @@ class HomeBloc {
   }
 
   void _initGetUserInfoLogic() {
-    getUserInfo.business =
-        (Observable<String> event) => event.asyncMap(Api().getUserInfo).map(
+    getUserInfo.logic =
+        (Observable<String> input) => input.asyncMap(Api().getUserInfo).map(
               (data) {
                 if (data.statusCode == 200) {
                   return User.fromJson(json.decode(data.body));

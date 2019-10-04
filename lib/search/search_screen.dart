@@ -12,14 +12,16 @@ class _SearchScreenState extends State<SearchScreen> {
   final bloc = SearchBloc();
 
   @override
+  void dispose() {
+    bloc.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Search Screen')),
       body: Container(
-          child: GestureDetector(
-        onTap: () {
-          bloc.focusNode.unfocus();
-        },
         child: Column(
           children: <Widget>[
             Container(
@@ -31,7 +33,6 @@ class _SearchScreenState extends State<SearchScreen> {
                     child: TextField(
                       onChanged: bloc.searchUser.push,
                       autofocus: true,
-                      focusNode: bloc.focusNode,
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: 'Please enter a search term',
@@ -103,7 +104,7 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
           ],
         ),
-      )),
+      ),
     );
   }
 }

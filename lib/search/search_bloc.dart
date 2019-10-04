@@ -3,28 +3,25 @@ import 'dart:convert';
 import 'package:bflutter/bflutter.dart';
 import 'package:bflutter_poc/api.dart';
 import 'package:bflutter_poc/model/user_base.dart';
-import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
 class SearchBloc {
   final loading = BlocDefault<bool>();
   final searchUser = Bloc<String, List<UserBase>>();
-  final FocusNode focusNode = FocusNode();
 
   SearchBloc() {
     _initSearchUserLogic();
   }
 
   void _initSearchUserLogic() {
-    searchUser.business = (Observable<String> event) => event
+    searchUser.logic = (Observable<String> input) => input
             .distinct()
-            .debounceTime(Duration(milliseconds: 1000))
+            .debounceTime(Duration(milliseconds: 500))
             .flatMap((input) {
+          print('final data: ' + input);
           //show loading
           loading.push(true);
           if (input.isEmpty) return Observable.just(null);
-          //hide keyboard
-          focusNode.unfocus();
           return Observable.fromFuture(Api().searchUsers(input));
         }).map((data) {
           if (data == null) {
